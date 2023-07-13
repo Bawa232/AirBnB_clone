@@ -1,12 +1,25 @@
 #!/usr/bin/python3
+"""This defines the base class which would be used by all other objects"""
+
 from uuid import uuid4
 from datetime import datetime
 
 
 class BaseModel:
+    """The base model which would be inherited by other classes
+
+    This contains the `save` methodthat upates the instance, `to_dict`
+    method which returns a dictionary representation of the instance
+
+    Attributes:
+        id(str): unique identifier of instance
+        created_at(datetime class): time of instance creation
+        updated_at(datetime class): last time instance was updated
+
+    """
 
     def __init__(self):
-        ''' Constructor: initializes an instance of the class '''
+        """ Constructor: initializes an instance of the class """
 
         self.id = str(uuid4())
         self.created_at = datetime.today()
@@ -26,9 +39,8 @@ class BaseModel:
     def to_dict(self):
         ''' returns the dictionary repr of an object '''
 
-        new_dic = {}
+        new_dic = self.__dict__.copy()
         new_dic["__class__"] = self.__class__.__name__
-        new_dic["created_at"] = created_at.isoformat()
-        new_dic["updated_at"] = updated_at.isoformat()
-
+        new_dic["created_at"] = self.created_at.isoformat()
+        new_dic["updated_at"] = self.updated_at.isoformat()
         return new_dic
