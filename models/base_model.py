@@ -18,12 +18,20 @@ class BaseModel:
 
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ Constructor: initializes an instance of the class """
 
+        date_form = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
+
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    if key == "created_at" or key == "upated_at":
+                        value = datetime.strptime(value, date_form)
+                    setattr(self, key, value)
 
     def __str__(self):
         ''' returns the str representation of the object '''
