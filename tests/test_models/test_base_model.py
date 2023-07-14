@@ -56,3 +56,25 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(json_dict["updated_at"], b.updated_at.isoformat())
         self.assertEqual(json_dict["created_at"], b.created_at.isoformat())
         self.assertEqual(json_dict["__class__"], b.__class__.__name__)
+
+    def test_from_dict(self):
+        """Create a BaseModel class from a dictionary gotten from to_dict"""
+        b = BaseModel()
+        b.name = "My First Model"
+        b.my_number = 89
+        b.save()
+        json_dict = b.to_dict()
+        new_b = BaseModel(**json_dict)
+        self.assertEqual(b.id, new_b.id)
+        self.assertEqual(b.name, new_b.name)
+        self.assertEqual(b.my_number, new_b.my_number)
+        self.assertTrue(b.created_at == new_b.created_at)
+        self.assertTrue(b.updated_at == new_b.updated_at)
+
+    def test_instantiation_with_args(self):
+        """Test to ensure args passed on instatntiation are not used"""
+        b = BaseModel()
+        c = BaseModel(b.id, b.created_at, b.updated_at)
+        self.assertNotEqual(b.id, c.id)
+        self.assertTrue(b.created_at < c.created_at)
+        self.assertTrue(b.updated_at < c.updated_at)
