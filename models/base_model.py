@@ -3,6 +3,7 @@
 
 from uuid import uuid4
 from datetime import datetime
+from . import storage
 
 
 class BaseModel:
@@ -28,16 +29,17 @@ class BaseModel:
         """
 
         date_form = "%Y-%m-%dT%H:%M:%S.%f"
-        self.id = str(uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
-
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
                     if key == "created_at" or key == "updated_at":
                         value = datetime.strptime(value, date_form)
                     setattr(self, key, value)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.today()
+            self.updated_at = datetime.today()
+            storage.new(self)
 
     def __str__(self):
         ''' returns the str representation of the object '''
@@ -49,6 +51,7 @@ class BaseModel:
         ''' updates updated_at whenever an instance is modified '''
 
         self.updated_at = datetime.today()
+        storage.save()
 
     def to_dict(self):
         ''' returns the dictionary repr of an object '''
