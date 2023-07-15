@@ -3,7 +3,6 @@
 
 from models.base_model import BaseModel
 from models import storage, FileStorage
-#from models.engine.file_storage import FileStorage
 import unittest
 
 
