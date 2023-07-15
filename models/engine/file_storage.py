@@ -4,8 +4,6 @@ deserializing the various instances that would be used in the project.
 """
 
 import json
-from ..user import User
-
 
 class FileStorage():
     """serializes instances to a JSON file and deserializes JSON
@@ -40,6 +38,7 @@ class FileStorage():
     def reload(self):
         """ deserializes the JSON file to __objects"""
         from ..base_model import BaseModel
+        from ..user import User
         try:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as j_fil:
                 json_dict = json.load(j_fil)
