@@ -15,7 +15,6 @@ class HBNBCommand(cmd.Cmd):
 
     """
     prompt = "(hbnb) "
-    intro = "AirBNB Console 0.0.1"
 
     def do_quit(self, line):
         """Exits the command interpreter"""
@@ -27,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """Action to be taken if emptyline is passed"""
-        return
+        pass
 
 
 if __name__ == '__main__':
