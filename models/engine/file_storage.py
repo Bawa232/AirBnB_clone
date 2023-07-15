@@ -4,6 +4,7 @@ deserializing the various instances that would be used in the project.
 """
 
 import json
+from ..user import User
 
 
 class FileStorage():
@@ -43,6 +44,9 @@ class FileStorage():
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as j_fil:
                 json_dict = json.load(j_fil)
                 for key, obj_dict in json_dict.items():
-                    FileStorage.__objects[key] = BaseModel(**obj_dict)
+                    if obj_dict["__class__"] == "BaseModel":
+                        FileStorage.__objects[key] = BaseModel(**obj_dict)
+                    elif obj_dict["__class__"] == "User":
+                        FileStorage.__objects[key] = User(**obj_dict)
         except Exception:
             return
