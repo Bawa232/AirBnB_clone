@@ -40,6 +40,12 @@ class FileStorage():
         """ deserializes the JSON file to __objects"""
         from ..base_model import BaseModel
         from ..user import User
+        from ..state import State
+        from ..city import City
+        from ..amenity import Amenity
+        from ..place import Place
+        from ..review import Review
+
         try:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as j_fil:
                 json_dict = json.load(j_fil)
@@ -48,5 +54,15 @@ class FileStorage():
                         FileStorage.__objects[key] = BaseModel(**obj_dict)
                     elif obj_dict["__class__"] == "User":
                         FileStorage.__objects[key] = User(**obj_dict)
+                    elif obj_dict["__class__"] == "State":
+                        FileStorage.__objects[key] = State(**obj_dict)
+                    elif obj_dict["__class__"] == "City":
+                        FileStorage.__objects[key] = City(**obj_dict)
+                    elif obj_dict["__class__"] == "Amenity":
+                        FileStorage.__objects[key] = Amenity(**obj_dict)
+                    elif obj_dict["__class__"] == "Place":
+                        FileStorage.__objects[key] = Place(**obj_dict)
+                    elif obj_dict["___class__"] == "Review":
+                        FileStorage.__objects[key] = Review(**obj_dict)
         except Exception:
             return
