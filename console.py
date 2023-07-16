@@ -4,9 +4,15 @@ a command interpreter to be used in the AirBNB clone project
 """
 
 import cmd
-from models import storage
 from models.base_model import BaseModel
 import re
+from models import storage
+from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.state import State
+from models.review import Review
+from models.place import Place
 
 
 class HBNBCommand(cmd.Cmd):
@@ -18,7 +24,8 @@ class HBNBCommand(cmd.Cmd):
 
     """
     prompt = "(hbnb) "
-    class_list = ["BaseModel"]
+    class_list = ["BaseModel", "User", "Amenity", "City", "State", "Review",
+                  "Place"]
 
     def do_quit(self, arg):
         """Exits the command interpreter"""
@@ -43,6 +50,18 @@ class HBNBCommand(cmd.Cmd):
         if arg:
             if arg == "BaseModel":
                 new = BaseModel()
+            elif arg == "User":
+                new = User()
+            elif arg == "Amenity":
+                new = Amenity()
+            elif arg == "City":
+                new = City()
+            elif arg == "State":
+                new = State()
+            elif arg == "Review":
+                new = Review()
+            elif arg == "Place":
+                new = Place()
             else:
                 print("** class doesn't exist **")
                 return
