@@ -17,6 +17,13 @@ class TestFileStorage(unittest.TestCase):
         and deserializing of the various data from the interpreter.
     """
 
+    def test_FileStorage_attributes(self):
+        """This checks the private attributes of FileStorage class
+            is present and of right type.
+        """
+        self.assertEqual(type(FileStorage._FileStorage__file_path), str)
+        self.assertEqual(type(FileStorage._FileStorage__objects), dict)
+
     def test_storage_is_instantiated(self):
         """This tests that the storage instance is instantiated and
         private object dict is available
@@ -79,7 +86,7 @@ class TestFileStorage(unittest.TestCase):
         g = State()
         h = Review()
         i = Place()
-        b.save()
+        storage.save()
         obj_dict = test_storage.all()
         b_key = f"{b.__class__.__name__}.{b.id}"
         c_key = f"{c.__class__.__name__}.{c.id}"

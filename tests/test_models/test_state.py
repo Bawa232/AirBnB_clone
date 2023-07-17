@@ -12,6 +12,7 @@ class TestBaseModel(unittest.TestCase):
         """Test for correct instantiation"""
         b = State()
         self.assertEqual(type(b.id), str)
+        self.assertEqual(b.name, "")
         self.assertNotEqual(b.created_at, None)
         self.assertNotEqual(b.updated_at, None)
 

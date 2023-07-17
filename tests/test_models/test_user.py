@@ -12,6 +12,10 @@ class TestBaseModel(unittest.TestCase):
         """Test for correct instantiation"""
         b = User()
         self.assertEqual(type(b.id), str)
+        self.assertEqual(b.first_name, "")
+        self.assertEqual(b.last_name, "")
+        self.assertEqual(b.email, "")
+        self.assertEqual(b.password, "")
         self.assertNotEqual(b.created_at, None)
         self.assertNotEqual(b.updated_at, None)
 
