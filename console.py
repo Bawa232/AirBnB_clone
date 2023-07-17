@@ -198,6 +198,63 @@ class HBNBCommand(cmd.Cmd):
         setattr(obj, attr_name, (type(getattr(obj, attr_name, "")))(attr_val))
         obj.save()
 
+    def default(self, arg):
+        """
+        Overrides the default implementation to allow for some additional
+            use cases.
+        Additional Usage: <class name>.<command>(args)
+        """
+        pattern = r'^([^.]*)\.(.*?)\((.*?)\)$'
+        matches = re.match(pattern, arg)
+        if matches:
+            class_arg = matches.group(1)
+            command = matches.group(2)
+            args = matches.group(3)
+        else:
+            print(f"*** Unknown syntax: {arg}")
+            return
+        if class_arg not in self.class_list:
+            print("** class doesn't exist **")
+            return
+        if command == "all":
+            self.do_all(class_arg)
+        elif command == "count":
+            count = 0
+            obj_dict = storage.all()
+            for key in obj_dict.keys():
+                if class_arg == (key[:len(class_arg)]):
+                    count += 1
+            print(count)
+        elif command == "show":
+            line = " ".join([class_arg, args.strip('"')])
+            self.do_show(line)
+        elif command == "destroy":
+            line = " ".join([class_arg, args.strip('"')])
+            self.do_destroy(line)
+        elif command == "update":
+            dict_list = re.findall(r'\{(.+?)\}', args)
+            if dict_list:
+                args_list = args.split(", ")
+                class_id = args_list[0].strip('"')
+                dict_args_list = dict_list[0].split(", ")
+                for dict_args in dict_args_list:
+                    key, val = dict_args.split(": ")
+                    key = key.strip('"')
+                    line = " ".join([class_arg, class_id, key.strip("'"),
+                                     val.strip("'")])
+                    print(line)
+                    self.do_update(line)
+            else:
+                args_list = args.split(", ")
+                class_id, attr_name, attr_val = args_list
+                attr_name = attr_name.strip('"')
+                line = " ".join([class_arg, class_id.strip('"'),
+                                attr_name.strip("'"), attr_val.strip("'")])
+                print(line)
+                self.do_update(line)
+        else:
+            print(f"*** Unknown syntax: {arg}")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
